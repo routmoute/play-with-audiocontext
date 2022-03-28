@@ -615,3 +615,61 @@ function createMediaElementVideoSourceNode() {
         }
     ], 0, 2, mediaElementVideoSource);
 }
+
+function createConstantSourceNode() {
+    let constantSource = audioCtx.createConstantSource();
+    let sliderInput = null;
+    let numberInput = null;
+    createNode("Constant Source", [
+        {
+            type: "label",
+            name: "offset",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: 0,
+            max: 100,
+            actual: 100,
+            sub: "",
+            func: function(number) {
+                numberInput = number;
+                numberInput.onchange = function() {
+                    constantSource.offset.value = this.value/100;
+                    sliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: 0,
+            max: 100,
+            actual: 100,
+            func: function(slider) {
+                sliderInput = slider;
+                sliderInput.oninput = function() {
+                    constantSource.offset.value = this.value/100;
+                    numberInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "button",
+            name: "start",
+            func: function(button) {
+                let started = false;
+                button.onclick = function() {
+                    if (started) {
+                        constantSource.stop();
+                        button.innerText = "start";
+                        started = false;
+                    } else {
+                        constantSource.start();
+                        button.innerText = "stop";
+                        started = true;
+                    }
+                }
+            }
+        }
+    ], 0, 1, constantSource);
+}
