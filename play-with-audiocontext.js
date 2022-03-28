@@ -373,16 +373,13 @@ function createGainNode() {
 
 function createOscillatorNode() {
     let oscillator = audioCtx.createOscillator();
-    let freqLabel = null;
     let sliderInput = null;
     let numberInput = null;
     createNode("Oscillator", [
         {
             type: "label",
             name: "frequency",
-            func: function(label) {
-                freqLabel = label;
-            }
+            func: function(label) {}
         },
         {
             type: "number",
@@ -430,4 +427,44 @@ function createOscillatorNode() {
             }
         }
     ], 0, 1, oscillator);
+}
+
+function createStereoPannerNode() {
+    let stereoPanner = audioCtx.createStereoPanner();
+    let numberInput = null;
+    let sliderInput = null;
+    createNode("Stereo Panner", [
+        {
+            type: "label",
+            name: "pan",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: -100,
+            max: 100,
+            actual: 0,
+            sub: "",
+            func: function(number) {
+                numberInput = number;
+                numberInput.onchange = function() {
+                    stereoPanner.pan.value = this.value/100;
+                    sliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: -100,
+            max: 100,
+            actual: 0,
+            func: function(slider) {
+                sliderInput = slider;
+                sliderInput.oninput = function() {
+                    stereoPanner.pan.value = this.value/100;
+                    numberInput.value = this.value;
+                };
+            }
+        },
+    ], 2, 2, stereoPanner);
 }
