@@ -1,0 +1,88 @@
+body {
+    text-align: center;
+    --text-color: black;
+    --border-color: black;
+    --bg-color: white;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transition: all .3s;
+}
+a {
+    color: var(--text-color);
+}
+button {
+    width: 100%;
+}
+canvas {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+}
+
+.node {
+    position: absolute;
+    background-color: var(--bg-color);
+    border: solid 5px;
+    border-color: var(--border-color);
+    padding: 10px;
+    cursor: pointer;
+    left: 50px;
+}
+
+.close {
+    position: absolute;
+    right: -10px;
+    top: -15px;
+    background-color: red;
+    color: white;
+    padding: 3px 6px;
+    border-radius: 10px;
+}
+.close:hover {
+    font-weight: bold;
+}
+
+.input {
+    position: absolute;
+    left: -40px;
+    bottom: 10px;
+}
+.i-dot {
+    display: inline-block;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+
+.output {
+    position: absolute;
+    right: -28px;
+    bottom: 10px;
+}
+.o-dot {
+    position: absolute;
+    top: 5px;
+    right: -15px;
+    background-color: green;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+}
+
+.select {
+    position: absolute;
+    display: none;
+    top: -1px;
+    left: 2px;
+}
+.o-dot .select {
+    top: -6px;
+    left: 1px;
+}

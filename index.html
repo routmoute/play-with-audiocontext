@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link href="style.css" rel="stylesheet" />
+        <title>Play With AudioContext</title>
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+        <table border="2px">
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        <button onclick="reset();">Reset</button>
+                    </th>
+                    <th>
+                        <button id="darkButton" onclick="darkMode();">Black</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Node Type</th>
+                    <th>Description</th>
+                    <th>Create</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Gain</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/GainNode">Doc</a></td>
+                    <td>
+                        <button onclick="createGainNode();">Create</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Oscillator</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode">Doc</a></td>
+                    <td>
+                        <button onclick="createOscillatorNode();">Create</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <script src="play-with-audiocontext.js"></script>
+    </body>
+</html>
