@@ -23,6 +23,9 @@ canvas {
     z-index: 1000;
     background-color: transparent;
 }
+video {
+    max-width: 300px;
+}
 
 .node {
     position: absolute;

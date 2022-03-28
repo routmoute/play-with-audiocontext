@@ -269,16 +269,27 @@ function createNode(name, nodeSettings, inputs, outputs, audioNode) {
                 playerDiv.appendChild(element.player);
                 playerFullDiv.appendChild(playerDiv);
                 switch(element.canPlay) {
-                    case "diskFiles":
-                        let diskFileDiv = document.createElement('div');
-                        let diskFileInput = document.createElement("input");
-                        diskFileInput.type = "file";
-                        diskFileInput.accept = "audio/*";
-                        diskFileInput.onchange = function() {
+                    case "audio":
+                        let audioDiv = document.createElement('div');
+                        let audioInput = document.createElement("input");
+                        audioInput.type = "file";
+                        audioInput.accept = "audio/*";
+                        audioInput.onchange = function() {
                             element.player.src = URL.createObjectURL(this.files[0]);
                         };
-                        diskFileDiv.appendChild(diskFileInput);
-                        playerFullDiv.appendChild(diskFileDiv);
+                        audioDiv.appendChild(audioInput);
+                        playerFullDiv.appendChild(audioDiv);
+                        break;
+                    case "video":
+                        let videoDiv = document.createElement('div');
+                        let videoInput = document.createElement("input");
+                        videoInput.type = "file";
+                        videoInput.accept = "video/*";
+                        videoInput.onchange = function() {
+                            element.player.src = URL.createObjectURL(this.files[0]);
+                        };
+                        videoDiv.appendChild(videoInput);
+                        playerFullDiv.appendChild(videoDiv);
                         break;
                 }
                 nodeList[nodeId].htmlNode.appendChild(playerFullDiv);
@@ -579,15 +590,28 @@ function createStereoPannerNode() {
     ], 2, 2, stereoPanner);
 }
 
-function createMediaElementSourceNode() {
+function createMediaElementAudioSourceNode() {
     let audio = new Audio();
     audio.controls = true;
-    let mediaElementSource = audioCtx.createMediaElementSource(audio);
-    createNode("Media Element Source", [
+    let mediaElementAudioSource = audioCtx.createMediaElementSource(audio);
+    createNode("Media Element Source (audio)", [
         {
             type: "player",
             player: audio,
-            canPlay: "diskFiles"
+            canPlay: "audio"
         }
-    ], 0, 2, mediaElementSource);
+    ], 0, 2, mediaElementAudioSource);
+}
+
+function createMediaElementVideoSourceNode() {
+    let video = document.createElement('video');
+    video.controls = true;
+    let mediaElementVideoSource = audioCtx.createMediaElementSource(video);
+    createNode("Media Element Source (video)", [
+        {
+            type: "player",
+            player: video,
+            canPlay: "video"
+        }
+    ], 0, 2, mediaElementVideoSource);
 }
