@@ -308,6 +308,9 @@ function drawLines() {
     if (dark) {
         canvasContext.fillStyle = "white";
         canvasContext.strokeStyle = "white";
+    } else {
+        canvasContext.fillStyle = "black";
+        canvasContext.strokeStyle = "black";
     }
     allLines.forEach(e => {
         if (e && e.coords.y2) {
