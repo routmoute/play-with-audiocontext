@@ -240,6 +240,29 @@ function createNode(name, nodeSettings, inputs, outputs, audioNode) {
                 sliderDiv.appendChild(slider);
                 nodeList[nodeId].htmlNode.appendChild(sliderDiv);
                 break;
+            case "choice":
+                let choicesDiv = document.createElement('div');
+                const choiceId = Math.random();
+                let radios = [];
+                element.choices.forEach(ch => {
+                    let choiceDiv = document.createElement('div');
+                    let choice = document.createElement('input');
+                    choice.type = 'radio';
+                    choice.id = ch;
+                    choice.name = choiceId;
+                    choice.value = ch;
+                    choiceDiv.appendChild(radios[radios.push(choice)-1]);
+                    let labelChoice = document.createElement('label');
+                    labelChoice.htmlFor = ch;
+                    labelChoice.innerText = ch;
+                    choiceDiv.appendChild(labelChoice);
+                    choicesDiv.appendChild(choiceDiv);
+                });
+                choicesDiv.firstChild.firstChild.checked = true;
+                element.func(radios);
+
+                nodeList[nodeId].htmlNode.appendChild(choicesDiv);
+                break;
         }
     });
 
@@ -375,6 +398,8 @@ function createOscillatorNode() {
     let oscillator = audioCtx.createOscillator();
     let sliderInput = null;
     let numberInput = null;
+    let detuneNumberInput = null;
+    let detuneSliderInput = null;
     createNode("Oscillator", [
         {
             type: "label",
@@ -407,6 +432,68 @@ function createOscillatorNode() {
                     oscillator.frequency.value = this.value;
                 };
             }
+        },
+        {
+            type: "label",
+            name: "detune",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: -200,
+            max: 200,
+            actual: 0,
+            sub: "cents",
+            func: function(number) {
+                detuneNumberInput = number;
+                detuneNumberInput.onchange = function() {
+                    oscillator.detune.value = this.value;
+                    detuneSliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: -200,
+            max: 200,
+            actual: 0,
+            func: function(slider) {
+                detuneSliderInput = slider;
+                detuneSliderInput.oninput = function() {
+                    detuneNumberInput.value = this.value;
+                    oscillator.detune.value = this.value;
+                };
+            }
+        },
+        {
+            type: "label",
+            name: "type",
+            func: function(label) {}
+        },
+        {
+            type: "choice",
+            choices: [
+                "sine",
+                "square",
+                "sawtooth",
+                "triangle"
+            ],
+            func: function(choices) {
+                let prev = null;
+                choices.forEach(radio => {
+                    radio.onchange = function() {
+                        if (this != prev) {
+                            prev = this;
+                            oscillator.type = this.value;
+                        }
+                    };
+                });
+            }
+        },
+        {
+            type: "label",
+            name: "---------------",
+            func: function(label) {}
         },
         {
             type: "button",
