@@ -673,3 +673,174 @@ function createConstantSourceNode() {
         }
     ], 0, 1, constantSource);
 }
+
+function createBiquadFilterNode() {
+    let biquadFilter = audioCtx.createBiquadFilter();
+    let numberInput = null;
+    let sliderInput = null;
+    let detuneNumberInput = null;
+    let detuneSliderInput = null;
+    let QNumberInput = null;
+    let QSliderInput = null;
+    let gainNumberInput = null;
+    let gainSliderInput = null;
+    createNode("Biquad Filter", [
+        {
+            type: "label",
+            name: "frequency",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: 20,
+            max: 20000,
+            actual: 350,
+            sub: "Hz",
+            func: function(number) {
+                numberInput = number;
+                numberInput.onchange = function() {
+                    biquadFilter.frequency.value = this.value;
+                    sliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: 20,
+            max: 20000,
+            actual: 350,
+            func: function(slider) {
+                sliderInput = slider;
+                sliderInput.oninput = function() {
+                    biquadFilter.frequency.value = this.value;
+                    numberInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "label",
+            name: "detune",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: -200,
+            max: 200,
+            actual: 0,
+            sub: "cents",
+            func: function(number) {
+                detuneNumberInput = number;
+                detuneNumberInput.onchange = function() {
+                    biquadFilter.detune.value = this.value;
+                    detuneSliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: -200,
+            max: 200,
+            actual: 0,
+            func: function(slider) {
+                detuneSliderInput = slider;
+                detuneSliderInput.oninput = function() {
+                    detuneNumberInput.value = this.value;
+                    biquadFilter.detune.value = this.value;
+                };
+            }
+        },
+        {
+            type: "label",
+            name: "Q",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: 1,
+            max: 200,
+            actual: 1,
+            sub: "",
+            func: function(number) {
+                QNumberInput = number;
+                QNumberInput.onchange = function() {
+                    biquadFilter.Q.value = this.value;
+                    QSliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: 1,
+            max: 200,
+            actual: 1,
+            func: function(slider) {
+                QSliderInput = slider;
+                QSliderInput.oninput = function() {
+                    QNumberInput.value = this.value;
+                    biquadFilter.Q.value = this.value;
+                };
+            }
+        },
+        {
+            type: "label",
+            name: "gain",
+            func: function(label) {}
+        },
+        {
+            type: "number",
+            min: -40,
+            max: 40,
+            actual: 0,
+            sub: "%",
+            func: function(number) {
+                gainNumberInput = number;
+                gainNumberInput.onchange = function() {
+                    biquadFilter.gain.value = this.value;
+                    gainSliderInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "slider",
+            min: -40,
+            max: 40,
+            actual: 0,
+            func: function(slider) {
+                gainSliderInput = slider;
+                gainSliderInput.oninput = function() {
+                    biquadFilter.gain.value = this.value;
+                    gainNumberInput.value = this.value;
+                };
+            }
+        },
+        {
+            type: "label",
+            name: "type",
+            func: function(label) {}
+        },
+        {
+            type: "choice",
+            choices: [
+                "lowpass",
+                "highpass",
+                "bandpass",
+                "lowshelf",
+                "highshelf",
+                "peaking",
+                "notch",
+                "allpass"
+            ],
+            func: function(choices) {
+                let prev = null;
+                choices.forEach(radio => {
+                    radio.onchange = function() {
+                        if (this != prev) {
+                            prev = this;
+                            biquadFilter.type = this.value;
+                        }
+                    };
+                });
+            }
+        }
+    ], 2, 2, biquadFilter);
+}
