@@ -756,7 +756,7 @@ function createBiquadFilterNode() {
         },
         {
             type: "number",
-            min: 1,
+            min: -200,
             max: 200,
             actual: 1,
             sub: "",
@@ -770,7 +770,7 @@ function createBiquadFilterNode() {
         },
         {
             type: "slider",
-            min: 1,
+            min: -200,
             max: 200,
             actual: 1,
             func: function(slider) {
